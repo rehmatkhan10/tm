@@ -14,7 +14,7 @@ import { signUp } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 
 const formSchema = z
@@ -49,6 +49,8 @@ export function SignUpForm({
     },
   });
 
+  const navigate = useNavigate();
+
   const { mutate } = useMutation({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       const { data, error } = await signUp.email({
@@ -65,6 +67,7 @@ export function SignUpForm({
     },
     onSuccess: () => {
       toast.success("Account created successfully");
+      navigate({ to: "/dashboard" });
     },
     onError(error) {
       console.error(error);

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import {
   ListTodo,
@@ -10,8 +10,15 @@ import {
   BarChart3,
   Clock,
 } from "lucide-react";
+import { getSession } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/")({
+  beforeLoad: async () => {
+    const { data } = await getSession();
+    if (data?.session) {
+      redirect({ to: "/dashboard", throw: true });
+    }
+  },
   component: LandingPage,
 });
 
