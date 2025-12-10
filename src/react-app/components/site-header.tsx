@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { ModeToggle } from "./mode-toggle"; // <--- Import the toggle button
 
 export function SiteHeader() {
   return (
@@ -23,6 +24,10 @@ export function SiteHeader() {
               GitHub
             </a>
           </Button>
+          
+          {/* Added the Dark/Light Mode Toggle here */}
+          <ModeToggle />
+          
         </div>
       </div>
     </header>

@@ -1,18 +1,15 @@
 import { IconDashboard, IconHelp } from "@tabler/icons-react";
-import { ListTodo } from "lucide-react";
 import * as React from "react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
+import { TeamSwitcher } from "@/components/team-switcher"; // <--- Import this
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useSession } from "@/lib/auth-client";
 
@@ -46,30 +43,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
-            >
-              <a href="#">
-                <div className="flex items-center gap-2">
-                  <div className="bg-blue-500 text-primary-foreground flex size-6 items-center justify-center rounded-md">
-                    <ListTodo className="size-4" />
-                  </div>
-                  <span className="text-base font-semibold">
-                    Task Manager Inc.
-                  </span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        {/* REPLACED THE STATIC LOGO WITH TEAM SWITCHER */}
+        <TeamSwitcher /> 
       </SidebarHeader>
+
       <SidebarContent>
         <NavMain items={sidebarData.navMain} />
         <NavSecondary items={sidebarData.navSecondary} className="mt-auto" />
       </SidebarContent>
+      
       <SidebarFooter>
         <NavUser user={sidebarData.user} />
       </SidebarFooter>

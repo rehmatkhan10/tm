@@ -42,6 +42,7 @@
     "better-auth": "^1.4.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "drizzle-orm": "^0.44.7",
     "hono": "4.8.2",
     "lucide-react": "^0.555.0",
@@ -83,8 +84,8 @@
     "lint": "eslint .",
     "preview": "npm run build && vite preview",
     "db:generate": "drizzle-kit generate",
-    "db:migrate:local": "wrangler d1 migrations apply tm-d1 --local",
-    "db:migrate:prod": "wrangler d1 migrations apply tm-d1 --remote"
+    "db:migrate:local": "wrangler d1 migrations apply my-task-manager --local",
+    "db:migrate:prod": "wrangler d1 migrations apply my-task-manager --remote"
   },
   "type": "module"
 }

@@ -1,5 +1,4 @@
 import { LoginForm } from "@/components/login-form";
-import { AuthLayout } from "@/layouts/auth-layout";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_auth/login")({
@@ -8,8 +7,11 @@ export const Route = createFileRoute("/_auth/login")({
 
 function RouteComponent() {
   return (
-    <AuthLayout>
-      <LoginForm />
-    </AuthLayout>
+    // Use a simple Flex container to center the form
+    <div className="flex min-h-screen w-full items-center justify-center bg-background p-4">
+      <div className="w-full max-w-md">
+        <LoginForm />
+      </div>
+    </div>
   );
 }

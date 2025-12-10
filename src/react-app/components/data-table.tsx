@@ -68,15 +68,17 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useTasksQuery } from "@/hooks/use-tasks-query";
 import { useUpdateTaskMutation } from "@/hooks/use-update-task-mutation";
 import { FormEvent, useEffect, useState } from "react";
+// NEW IMPORT
+import { TaskSheet } from "./task-sheet";
 
 export const taskSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string(),
   status: z.enum(["todo", "in_progress", "completed"]),
+  priority: z.enum(["low", "medium", "high"]),
   createdAt: z.string(),
 });
-
 export type Task = z.infer<typeof taskSchema>;
 
 function getStatusDisplay(status: Task["status"]) {
@@ -108,104 +110,14 @@ function formatDate(dateString: string) {
   });
 }
 
+// UPDATED: Now uses TaskSheet instead of Drawer
 function TaskCellViewer({ task }: { task: Task }) {
-  const isMobile = useIsMobile();
-  const updateMutation = useUpdateTaskMutation();
-  const [title, setTitle] = useState(task.title);
-  const [description, setDescription] = useState(task.description);
-  const [status, setStatus] = useState(task.status);
-  const [open, setOpen] = useState(false);
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    toast.promise(
-      updateMutation
-        .mutateAsync({
-          id: task.id,
-          title,
-          description,
-          status,
-        })
-        .then(() => setOpen(false)),
-      {
-        loading: "Updating task...",
-        success: "Task updated successfully",
-        error: "Failed to update task",
-      }
-    );
-  };
-
   return (
-    <Drawer
-      open={open}
-      onOpenChange={setOpen}
-      direction={isMobile ? "bottom" : "right"}
-    >
-      <DrawerTrigger asChild>
-        <Button variant="link" className="text-foreground w-fit px-0 text-left">
-          {task.title}
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="gap-1">
-          <DrawerTitle>Edit Task</DrawerTitle>
-          <DrawerDescription>
-            Make changes to your task here. Click save when you're done.
-          </DrawerDescription>
-        </DrawerHeader>
-        <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="title">Title</Label>
-              <Input
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                rows={4}
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="status">Status</Label>
-              <Select
-                value={status}
-                onValueChange={(value) => setStatus(value as Task["status"])}
-              >
-                <SelectTrigger id="status" className="w-full">
-                  <SelectValue placeholder="Select a status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="todo">To Do</SelectItem>
-                  <SelectItem value="in_progress">In Progress</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label>Created At</Label>
-              <div className="text-muted-foreground">
-                {formatDate(task.createdAt)}
-              </div>
-            </div>
-          </form>
-        </div>
-        <DrawerFooter>
-          <Button onClick={handleSubmit} disabled={updateMutation.isPending}>
-            {updateMutation.isPending ? "Saving..." : "Save Changes"}
-          </Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+    <TaskSheet taskId={task.id}>
+      <Button variant="link" className="text-foreground w-fit px-0 text-left font-medium hover:underline">
+        {task.title}
+      </Button>
+    </TaskSheet>
   );
 }
 
@@ -375,6 +287,36 @@ function StatusCell({ task }: { task: Task }) {
     </Select>
   );
 }
+function PriorityCell({ task }: { task: Task }) {
+  const updateMutation = useUpdateTaskMutation();
+
+  const handlePriorityChange = (newPriority: "low" | "medium" | "high") => {
+    toast.promise(
+      updateMutation.mutateAsync({
+        id: task.id,
+        priority: newPriority,
+      }),
+      {
+        loading: "Updating priority...",
+        success: "Priority updated",
+        error: "Failed to update priority",
+      }
+    );
+  };
+
+  return (
+    <Select value={task.priority} onValueChange={handlePriorityChange}>
+      <SelectTrigger className="w-[110px] h-8 border-transparent bg-transparent hover:bg-input/30">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="low">Low</SelectItem>
+        <SelectItem value="medium">Medium</SelectItem>
+        <SelectItem value="high">High</SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
 
 const columns: ColumnDef<Task>[] = [
   {
@@ -396,6 +338,11 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => <StatusCell task={row.original} />,
+  },
+  {
+    accessorKey: "priority",
+    header: "Priority",
+    cell: ({ row }) => <PriorityCell task={row.original} />,
   },
   {
     accessorKey: "createdAt",

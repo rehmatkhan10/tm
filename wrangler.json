@@ -1,25 +1,31 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "tm",
-	"main": "./src/worker/index.ts",
-	"compatibility_date": "2025-06-17",
-	"compatibility_flags": [
-		"nodejs_compat"
-	],
-	"observability": {
-		"enabled": true
-	},
-	"d1_databases": [
-		{
-			"binding": "DB",
-			"database_name": "tm-d1",
-			"database_id": "0122c898-3541-43a8-8bd2-52a2e0081acc",
-			"migrations_dir": "drizzle"
-		}
-	],
-	"upload_source_maps": true,
-	"assets": {
-		"directory": "./dist/client",
-		"not_found_handling": "single-page-application"
-	}
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "tm",
+    "main": "./src/worker/index.ts",
+    "compatibility_date": "2025-06-17",
+    "compatibility_flags": [
+        "nodejs_compat"
+    ],
+    "observability": {
+        "enabled": true
+    },
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_name": "my-task-manager",
+            "database_id": "dafd3f1a-3ac4-48c4-8418-67d835c5aadc",
+            "migrations_dir": "drizzle"
+        }
+    ],
+    "r2_buckets": [
+        {
+            "binding": "ATTACHMENTS_BUCKET",
+            "bucket_name": "tm-attachments"
+        }
+    ],
+    "upload_source_maps": true,
+    "assets": {
+        "directory": "./dist/client",
+        "not_found_handling": "single-page-application"
+    }
 }
