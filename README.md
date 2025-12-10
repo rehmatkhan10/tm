@@ -2,9 +2,9 @@
 
 A full-stack Task Manager application built as part of the **Advanced Full Stack Development & Software Testing** course. This project demonstrates modern web development practices using React, Hono, and Cloudflare Workers.
 
-🌐 **Live Demo:** [https://tm.ehtishamsajjad.com/](https://tm.ehtishamsajjad.com/)
+🌐 **Live Demo:** [https://tm.rehmatkhan.workers.dev/login](https://tm.rehmatkhan.workers.dev/login)
 
-📚 **Course Documentation:** [AFST Course](https://github.com/ehtishamsajjad/afst)
+📚 **Repository:** [https://github.com/rehmatkhan10/tm](https://github.com/rehmatkhan10/tm)
 
 ## ✨ Features
 
@@ -52,69 +52,8 @@ A full-stack Task Manager application built as part of the **Advanced Full Stack
 
 ```bash
 # Clone the repository
-git clone https://github.com/ehtishamsajjad/tm.git
+git clone [https://github.com/rehmatkhan10/tm.git](https://github.com/rehmatkhan10/tm.git)
 cd tm
 
 # Install dependencies
 bun install
-```
-
-### Development
-
-```bash
-# Start the development server
-bun run dev
-```
-
-Your application will be available at [http://localhost:5173](http://localhost:5173).
-
-### Database Setup
-
-```bash
-# Generate migrations
-bun run db:generate
-
-# Apply migrations locally
-bun run db:migrate:local
-```
-
-## 📦 Production
-
-```bash
-# Build for production
-bun run build
-
-# Preview locally
-bun run preview
-
-# Deploy to Cloudflare Workers
-bun run deploy
-```
-
-## 📁 Project Structure
-
-```text
-tm/
-├── src/
-│   ├── react-app/          # Frontend React application
-│   │   ├── components/     # UI components
-│   │   ├── hooks/          # Custom React hooks
-│   │   ├── routes/         # TanStack Router pages
-│   │   └── lib/            # Utilities
-│   └── worker/             # Backend Hono API
-│       ├── db/             # Database schema
-│       └── lib/            # Auth & utilities
-├── drizzle/                # Database migrations
-└── public/                 # Static assets
-```
-
-## 📄 License
-
-This project is licensed under the Apache Version 2 License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
-
-**Ehtisham Sajjad** - Senior Software Engineer
-
-- LinkedIn: [@ehtishamsajjad](https://www.linkedin.com/in/ehtishamsajjad/)
-- Email: [hi@ehtishamsajjad.com](mailto:hi@ehtishamsajjad.com)
